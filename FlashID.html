@@ -1,0 +1,388 @@
+<html>
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-spacing: 15px 50px;
+  border-collapse: collapse;
+}
+table {
+  width: 98%;
+}
+th, td {
+  padding: 5px;
+}
+body {
+  font-family: lucida console;
+	margin-left: 38px;
+}
+    
+</style>
+</head>
+<body>
+<title>FlashID</title>
+<h1>FlashID</h1>
+<h2>Synopsis</h2>
+      Generates a unique Instance ID
+<h2>Description</h2>
+      Generates a unique Instance ID based on time eLapsed since the Unix Epoch<br>  4B1C-2738-PQNJ<br><br>  The first Section is a 4 character Hexidecimal representation of the Days elapsed since 1/1/1970<br>  The second section is a representation of the time passed in the current day.  <br>The third section is a 4 Character (Adjunct) Alpha string, which will insure that the FlashID is unique across different installations. <br>(Adjunct string will not include and digits or characters used in Hexidecimal notation, [0-9][A-F])<br>      <br>Note also, [FlashID] is based on GMT
+<h2>Properties</h2>
+<table>
+<colgroup><col width="10%"><col width="50%"><col></colgroup>
+<tr style="background-color:DeepSkyBlue">
+<th>Name</th>
+<th>Description</th>
+<th>Definition</th>
+</tr>
+<tr>
+<td>
+
+Adjunct
+
+</td>
+<td>
+      4 Character Random Alpha String
+</td>
+<td>
+string Adjunct {get;set;}
+</td>
+</tr>
+<tr>
+<td>
+
+BriefMode
+
+</td>
+<td>
+      Supress Adjunct section
+</td>
+<td>
+switch BriefMode {get;set;}
+</td>
+</tr>
+<tr>
+<td>
+
+Expanded
+
+</td>
+<td>
+      Include Adjunct String
+</td>
+<td>
+switch Expanded {get;set;}
+</td>
+</tr>
+<tr>
+<td>
+
+HexDate
+
+</td>
+<td>
+      4 Character hexadecimal representation of Days elapsed since the Unix Epoch
+</td>
+<td>
+string HexDate {get;set;}
+</td>
+</tr>
+<tr>
+<td>
+
+Initiated
+
+</td>
+<td>
+      Date and Time the FlashID was created
+</td>
+<td>
+datetime Initiated {get;set;}
+</td>
+</tr>
+<tr>
+<td>
+
+Lap
+
+</td>
+<td>
+      Milliseconds Elapsed in creation
+</td>
+<td>
+double Lap {get;set;}
+</td>
+</tr>
+<tr>
+<td>
+
+Length
+
+</td>
+<td>
+      Number of Characters in Partial Date string
+</td>
+<td>
+int Length {get;set;}
+</td>
+</tr>
+<tr>
+<td>
+
+PartialDay
+
+</td>
+<td>
+      Part of day eLapsed since midnight
+</td>
+<td>
+string PartialDay {get;set;}
+</td>
+</tr>
+<tr>
+<td>
+
+Span
+
+</td>
+<td>
+      TimeSpan (Since Unix Epoch)
+</td>
+<td>
+timespan Span {get;set;}
+</td>
+</tr>
+<tr>
+<td>
+
+Summary
+
+</td>
+<td>
+      String Representation of FlashID
+</td>
+<td>
+string Summary {get;set;}
+</td>
+</tr>
+<tr>
+<td>
+
+Zulu
+
+</td>
+<td>
+      Date and Time the FlashID was created, GMT
+</td>
+<td>
+datetime Zulu {get;set;}
+</td>
+</tr>
+</table>
+<h2>Methods</h2>
+<table>
+<colgroup><col width="10%"><col width="50%"><col></colgroup>
+<tr style="background-color:DeepSkyBlue">
+<th>Name</th>
+<th>Description</th>
+<th>Definition</th>
+</tr>
+<tr style="background-color:GreenYellow">
+<td>
+
+Bare
+
+</td>
+<td>
+        12 Character FlashID without seperators
+</td>
+<td>
+static FlashID Bare()
+</td>
+</tr>
+<tr style="background-color:GreenYellow">
+<td>
+
+Brief
+
+</td>
+<td>
+                 Default FlashID without Adjunct Section        * Note: Because Brief Mode is a representaion of time passed in a day,           unique FlashID can not be guaranteed in brief mode with a fast processor
+</td>
+<td>
+static FlashID Brief()
+</td>
+</tr>
+<tr style="background-color:GreenYellow">
+<td>
+
+help
+
+</td>
+<td>
+Displays this help file
+</td>
+<td>
+static void help()
+</td>
+</tr>
+<tr style="background-color:GreenYellow">
+<td>
+
+Pop
+
+</td>
+<td>
+        Returns string representation of FlashID
+</td>
+<td>
+static string Pop()<br>static string Pop(hashtable options)
+</td>
+</tr>
+<tr style="background-color:Lime">
+<td>
+
+new
+
+</td>
+<td>
+Creates new [FlashID]
+</td>
+<td>
+FlashID new()<br>FlashID new(System.Object options)
+</td>
+</tr>
+<tr style="background-color:Yellow">
+<td>
+<strong>
+Equals
+</strong>
+</td>
+<td>
+Determines whether the specified object is equal to the current object.
+</td>
+<td>
+bool Equals(System.Object obj)
+</td>
+</tr>
+<tr style="background-color:Yellow">
+<td>
+<strong>
+GetHashCode
+</strong>
+</td>
+<td>
+Returns a hash code for the current object
+</td>
+<td>
+int GetHashCode()
+</td>
+</tr>
+<tr style="background-color:Yellow">
+<td>
+<strong>
+GetType
+</strong>
+</td>
+<td>
+Returns Object type [FlashID]
+</td>
+<td>
+type GetType()
+</td>
+</tr>
+<tr style="background-color:Yellow">
+<td>
+<strong>
+ToString
+</strong>
+</td>
+<td>
+Returns a string that represents the current object
+</td>
+<td>
+string ToString()
+</td>
+</tr>
+<tr style="background-color:Gold">
+<td>
+<strong>
+Equals
+</strong>
+</td>
+<td>
+Determines whether the specified object instances are considered equal.
+</td>
+<td>
+static bool Equals(System.Object objA, System.Object objB)
+</td>
+</tr>
+<tr style="background-color:Gold">
+<td>
+<strong>
+ReferenceEquals
+</strong>
+</td>
+<td>
+true if objA is the same instance as objB or if both are null; otherwise, false.
+</td>
+<td>
+static bool ReferenceEquals(System.Object objA, System.Object objB)
+</td>
+</tr>
+</table>
+<br>
+<table style="width:10%">
+<tr style="background-color:DeepSkyBlue">
+<th>Legend</th></tr>
+<tr><td>Member</td></tr>
+<tr style="background-color:GreenYellow"><td>Static</td></tr>
+<tr style="background-color:Lime"><td>Constructor</td></tr>
+<tr style="background-color:Yellow"><td>Common</td></tr>
+<tr style="background-color:Gold"><td>Common/Static</td></tr>
+</table>
+<pre style="background-color: #EDEEEF;">
+
+			.EXAMPLE
+			
+			[FlashID]::new()
+			
+			4C38-A570-UNVJ
+			
+			
+			.EXAMPLE
+			
+			[FlashID]::Pop()
+			4C38-A571-WZVJ
+			
+			
+			.EXAMPLE
+			
+			[FlashID]::Brief()
+			4C38-A570A2
+			
+			
+			.EXAMPLE
+			
+			[FlashID]::new(@{ BriefMode = $true; Length = 10;Seperator='~' })
+			4C38~A570A5AC6B
+			
+			
+			.EXAMPLE
+			
+			[FlashID]::new()|select *
+			
+			HexDate    : 4C38
+			PartialDay : A571
+			Adjunct    : RVNX
+			Initiated  : 6/4/2023 11:30:36 AM
+			Zulu       : 6/4/2023 3:30:36 PM
+			Span       : 19512.15:30:36.0144393
+			Lap        : 3
+			Length     : 4
+			BriefMode  : False
+			Expanded   : True
+			Summary    : 4C38-A571-RVNX
+
+
+</pre>
+</html></body>
