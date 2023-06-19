@@ -1,89 +1,73 @@
 #requires -Version 5.0
 <#
-      Comments Inclosed in an HTML Comment block <!--  --> 
-      with the member name in ANSI quotes <!-- [Member] --> 
-      are used by the New-ClassHelperMaker command to auto-generate  FlashID.html
-
-
-
-      <!-- [Description]
-      Generates a unique Instance ID based on time eLapsed since the Unix Epoch<br>  4B1C-2738-PQNJ<br><br>  The first Section is a 4 character Hexidecimal representation of the Days elapsed since 1/1/1970<br>  The second section is a representation of the time passed in the current day.  <br>The third section is a 4 Character (Adjunct) Alpha string, which will insure that the FlashID is unique across different installations. <br>(Adjunct string will not include and digits or characters used in Hexidecimal notation, [0-9][A-F])<br>
-      <br>Note also, [FlashID] is based on GMT
-
-      -->
-
-
-      <!-- [Synopsis]
-      Generates a unique Instance ID
-      -->
-	
-      #Properties
-
-      
-      <!-- [BriefMode]
-      Supress Adjunct section
-      -->
-
-      <!-- [Expanded]
-      Include Adjunct String
-      -->
-
-      <!-- [HexDate]
-      4 Character hexadecimal representation of Days elapsed since the Unix Epoch
-      -->
-
-      <!-- [Initiated]
-      Date and Time the FlashID was created
-      -->
-
-      <!-- [Lap]
-      Milliseconds Elapsed in creation
-      -->
-
-      <!-- [Length]
-      Number of Characters in Partial Date string
-      -->
-
-      <!-- [PartialDay]
-      Part of day eLapsed since midnight
-      -->
-
-      <!-- [Summary]
-      String Representation of FlashID
-      -->
-
-      <!-- [Zulu]
-      Date and Time the FlashID was created, GMT
-      -->
-
-      <!-- [Span]
-      TimeSpan (Since Unix Epoch)
-      -->
-
-  #>
-class FlashID{
-	
-
-	[string]$HexDate
-	[string]$PartialDay
-	[string]
-	<#
-<!-- [Adjunct]
-      4 Character Random Alpha String
-      -->
+Comments Inclosed in an HTML Comment block <!--  --> 
+with the member name in ANSI quotes <!-- [Member] --> 
+are used by the New-ClassHelperMaker command to auto-generate  FlashID.html
 #>
-	$Adjunct
-	[datetime]$Initiated
-	[datetime]$Zulu
-	[timespan]$Span
+<#
+<!-- [Synopsis]
+Generates a unique Instance ID
+-->
 
-	[double]$Lap
+<!-- [Description]
+Generates a unique Instance ID based on time eLapsed since the Unix Epoch<br> 4B1C-2738-PQNJ<br><br> The first Section is a 4 character Hexidecimal representation of the Days elapsed since 1/1/1970<br> The second section is a representation of the time passed in the current day. <br>The third section is a 4 Character (Adjunct) Alpha string, which will insure that the FlashID is unique across different installations. <br>(Adjunct string will not include and digits or characters used in Hexidecimal notation, [0-9][A-F])<br> <br>Note also, [FlashID] is based on GMT
+-->
+
+#>
+<# Methods
+
+<!-- [Brief]
+Default FlashID without Adjunct Section
+<pre>
+*Note: Because Brief Mode is a representaion of time passed in a day,<br>
+       unique FlashID can not be guaranteed in brief mode with a fast processor
+</pre>
+-->
+#>
+
+
+class FlashID{
+
+	[string]
+	#4 Character Random Alpha String
+	$HexDate
+
+	[string]
+	#Part of day elapsed since midnight
+	$PartialDay
+
+	[string]
+	#4 Character Random Alpha String
+	$Adjunct
+
+	[datetime]
+	#Date and Time the FlashID was created
+	$Initiated
+	[datetime]
+	#Date and Time the FlashID was created, GMT
+	$Zulu
+	[timespan]
+	#TimeSpan (Since Epoch)
+	$Span
+
+	[double]
+	#Milliseconds Elapsed in creation
+	$Lap
 
 	[string] hidden $Seperator = '-'
-	[ValidateRange(1,10)] [int]$Length = 4
-	[switch]$BriefMode
-	[switch]$Expanded
-	[string]$Summary
+	[ValidateRange(1,10)]
+	[int]
+	#Number of Characters in PartialDay section
+	$Length = 4
+	[switch]
+	#	Supress Adjunct section
+	$BriefMode
+	[switch]
+	#Include Adjunct String
+	$Expanded
+	[string]
+	#String representation of FlashID
+	$Summary
 
 	[string] hidden $Epoch = '1/1/1970'
 
@@ -107,53 +91,42 @@ class FlashID{
 				Get-Random -Count ($count * 2)).ForEach{ [char]$_ } |
 			sort { Get-Random } | Get-Random -Count $count)
 	}
-	[string] hidden static Pluck ([int]$count)
+	[string]
+	# Generates a random alpha numeric string
+	hidden static Pluck ([int]$count)
 	{
-		<#
-        <!-- [Pluck]
-        Generates a random alpha numeric string
-        -->
-    #>
 		return [FlashID]::TruePluck($count)
 	}
 	[string] hidden static Pluck ()
 	{
 		return [FlashID]::TruePluck(4)
 	}
-	[string] static Pop ()
+	[string]
+	#	Returns string representation of FlashID
+	static Pop ()
 	{
-		<#
-        <!-- [pop]
-        Returns string representation of FlashID
-        -->
-    #>
 		return [FlashID]::new()
 	}
 	[string] static Pop ([hashtable]$options)
 	{
 		return [FlashID]::new($options)
 	}
-	[FlashID] static Brief ()
-	{
-		<#
-        <!-- 
-        [Brief]
+	[FlashID]
+	<#
         Default FlashID without Adjunct Section
         * Note: Because Brief Mode is a representaion of time passed in a day, 
           unique FlashID can not be guaranteed in brief mode with a fast processor
-        -->
     #>
+	static Brief ()
+	{
 		#$B=[FlashID]::new('Brief')
 		#return  $(@($B.HexDate,$B.PartialDay,$B.Adjunct).ForEach{ if ($_) { $_ } } -join $B.Seperator)
 		return ([FlashID]::new('Brief'))
 	}
-	[String] static Bare ()
+	[string]
+	#12 Character FlashID without seperators
+	static Bare ()
 	{
-		<#
-        <!-- [Bare]
-        12 Character FlashID without seperators
-        -->
-    #>
 
 		return [FlashID]::new(@{
 				'NoSeperators' = $true
@@ -289,9 +262,9 @@ class FlashID{
 				#>
 				#$this.PartialDay = "{0:X$($this.Length)}" -f [int](($this.span.TotalDays - $this.span.Days) * $max + ($I++))
 				$this.PartialDay = "{0:X$($this.Length)}" -f $([int64]([decimal](($this.span.TotalDays - ($this.span.Days)) * $max)) + ($i++))
-				if(!$Global:LastFlashID){
-                    break
-                    }
+				if (!$Global:LastFlashID) {
+					break
+				}
 
 			} while (([int64]"0x$($this.PartialDay)") -le ([int64]"0x$($global:LastFlashID.PartialDay.PadRight($this.Length).Substring(0,$this.Length))"))
 
@@ -303,7 +276,7 @@ class FlashID{
 			}
 
 			#$this.Summary = $(@($this.HexDate,$this.PartialDay,$this.Adjunct).ForEach{ if ($_) { $_ } } -join $this.Seperator)
-			$this.Summary=$this.ToString()
+			$this.Summary = $this.ToString()
 
 			<#$i++
       if($i -gt 750)
@@ -397,9 +370,6 @@ class FlashID{
 
 
 #Example Block - End
-#>			
-			
-			
-			
+#>
 
 
